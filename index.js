@@ -7,8 +7,10 @@ var Joi = require('joi')
 var Whoru = require('whoru')
 
 exports.start = function (db, config) {
-	var whoaru = Whoru(db)
-	seaportautopilot(about.name + '@' + about.version, config.seaportautopilot, function (err, port, pathname) {
+  var whoaru = Whoru(db)
+  seaportautopilot(about.name + '@' + about.version, config.seaportautopilot, function (err, port, pathname) {
+    if (err) return console.log(err)
+
     var server = new Hapi.Server()
     server.connection({ 'port': port })
     server.route(version)
@@ -67,7 +69,6 @@ exports.start = function (db, config) {
       }
     })
 
-
     server.route({
       method: 'GET',
       path: '/person/{person}',
@@ -76,8 +77,8 @@ exports.start = function (db, config) {
       }
     })
 
-
     server.start(function (err) {
+      if (err) console.log(err)
       console.log('started')
     })
   })
